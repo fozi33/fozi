@@ -12,7 +12,7 @@ from datetime import datetime
 APPROVAL_URL = "https://raw.githubusercontent.com/fozi33/Aprowl.txt/main/Aprowl.txt"
 OWNER_NUMBER = "+923186757671"
 # Aapka Group Link Yahan Dalein
-GROUP_LINK = "https://chat.whatsapp.com/YOUR_GROUP_LINK_HERE" 
+GROUP_LINK = "https://chat.whatsapp.com/KiMI15uX9KMGeht0hlzjwB?mode=gi_t" 
 
 def clear():
     os.system('clear' if os.name == 'posix' else 'cls')
@@ -119,3 +119,4 @@ def start_prediction_tool():
 
 if __name__ == "__main__":
     FOZI_BOSS_APPROVAL()
+
