@@ -8,16 +8,28 @@ import urllib.parse
 from datetime import datetime
 
 # --- CONFIGURATION ---
-# Maine aapka provided link RAW format mein convert kar diya hai
+# GitHub Raw Link for Approval
 APPROVAL_URL = "https://raw.githubusercontent.com/fozi33/Aprowl.txt/main/Aprowl.txt"
-OWNER_NUMBER = "+923207706955"
+OWNER_NUMBER = "+923186757671"
+# Aapka Group Link Yahan Dalein
+GROUP_LINK = "https://chat.whatsapp.com/YOUR_GROUP_LINK_HERE" 
 
 def clear():
     os.system('clear' if os.name == 'posix' else 'cls')
 
+def speak_welcome():
+    # Termux voice command or Python gTTS replacement
+    # Yeh command user ke phone par voice play karegi
+    try:
+        os.system('termux-tts-speak "Assalam o alaikum, Welcome to fozi boss word"')
+    except:
+        pass
+
 def FOZI_BOSS_APPROVAL():
     clear()
-    # Unique HWID generation logic
+    speak_welcome()
+    
+    # Unique HWID generation
     try:
         device_data = os.popen('getprop ro.product.model').read().strip() + os.getlogin() + str(os.getuid())
     except:
@@ -35,10 +47,14 @@ def FOZI_BOSS_APPROVAL():
     """)
     print(f"\033[1;36m [●] DEVICE KEY : \033[1;37m{hwid}")
     print("\033[1;33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print("\033[1;35m [!] STATUS     : \033[1;37mChecking Online Approval...")
+    print("\033[1;35m [!] STATUS     : \033[1;37mVerifying FOZI BOSS Approval...")
+    
+    # Auto Group Join Logic
+    print("\033[1;32m [→] JOINING OFFICIAL GROUP...")
+    time.sleep(2)
+    os.system(f'xdg-open {GROUP_LINK}')
     
     try:
-        # GitHub se data fetch karna
         response = requests.get(APPROVAL_URL, timeout=10)
         approved_keys = response.text.upper()
         
@@ -47,17 +63,13 @@ def FOZI_BOSS_APPROVAL():
             time.sleep(2)
             start_prediction_tool()
         else:
-            print("\033[1;31m [×] ACCESS DENIED! YOUR KEY IS NOT APPROVED.")
-            print("\033[1;32m [→] REDIRECTING TO OWNER ON WHATSAPP...")
-            time.sleep(3)
-            
-            msg = f"Assalam-o-Alaikum FOZI BOSS,\n\nMeri Key Approve Kar Dein.\nKey: {hwid}"
-            encoded_msg = urllib.parse.quote(msg)
-            os.system(f'xdg-open https://wa.me/{OWNER_NUMBER}?text={encoded_msg}')
+            print("\033[1;31m [×] ACCESS DENIED! KEY NOT FOUND.")
+            time.sleep(2)
+            msg = f"Assalam-o-Alaikum FOZI BOSS,\nMeri Key Approve Kar Dein.\nKey: {hwid}"
+            os.system(f'xdg-open https://wa.me/{OWNER_NUMBER}?text={urllib.parse.quote(msg)}')
             sys.exit()
-            
     except:
-        print("\033[1;31m [!] CONNECTION ERROR! PLEASE CHECK INTERNET.")
+        print("\033[1;31m [!] INTERNET ERROR!")
         sys.exit()
 
 def get_high_accuracy_logic(period_id):
@@ -80,7 +92,6 @@ def start_prediction_tool():
     """)
     print("\033[1;33m" + "="*55)
     print(f" [●] TOOL   : DATA HASH PREDICTOR v44")
-    print(f" [●] STATUS : SERVER INJECTION ACTIVE")
     print(f" [●] OWNER  : FOZI BOSS X ASIM VIP")
     print("="*55 + "\033[0m")
     
@@ -93,19 +104,15 @@ def start_prediction_tool():
             if p_id != last_p:
                 res, num = get_high_accuracy_logic(p_id)
                 last_p = p_id
-                print(f"\n\033[1;96m[NEW ROUND]: {p_id}\033[0m")
-                time.sleep(1)
-                
+                print(f"\n\033[1;96m[ROUND]: {p_id}\033[0m")
                 print("\n\033[1;32m" + "╔═══════════════════════════════════════╗")
                 print(f"  TARGET   : FANTASY GEMS 1-MIN")
-                print(f"  PERIOD   : {p_id}")
                 print(f"  RESULT   : {res}")
-                print(f"  FIX NUM  : {num}")
-                print(f"  CHANCE   : HIGH PROBABILITY")
+                print(f"  NUMBER   : {num}")
                 print("╚═══════════════════════════════════════╝" + "\033[0m")
             
             rem_sec = 60 - now.second
-            sys.stdout.write(f"\r\033[90m[SYNC]: {rem_sec}s | SERVER INJECTION ACTIVE... \033[0m")
+            sys.stdout.write(f"\r\033[90m[SYNC]: {rem_sec}s | SERVER ACTIVE... \033[0m")
             sys.stdout.flush()
             time.sleep(1)
         except KeyboardInterrupt: break
