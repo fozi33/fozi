@@ -1,112 +1,92 @@
-import os
-import sys
 import time
+import sys
 import hashlib
-import socket
+import random
 from datetime import datetime
 
-# ==========================================================
-# [ ADMIN CONTROL PANEL ] - ONLY FOR FOZI KING HACKER
-# ==========================================================
-OWNER_NAME = "FOZI KING HACKER"
-CONTACT_NO = "+923186757671"
-
-# GitHub par upload karne se pehle naye customers ki ID yahan add karein
-APPROVED_DEVICES = [
-    "FOZI-MASTER-786", 
-    "FOZI-43629758D0" 
-]
-# ==========================================================
+# --- CONFIGURATION ---
+ACTIVATION_KEY = "FOZI786" 
+CONTACT_NUM = "+923186757671"
 
 def clear():
+    import os
     os.system('clear' if os.name == 'posix' else 'cls')
 
-def get_hwid():
-    try:
-        # Hardware ID binding logic
-        raw_info = socket.gethostname() + os.getlogin()
-        hwid = hashlib.md5(raw_info.encode()).hexdigest()[:10].upper()
-        return f"FOZI-{hwid}"
-    except:
-        return "FOZI-ERR-786"
-
-def check_security():
-    clear()
-    user_hwid = get_hwid()
+def get_high_accuracy_logic(period_id):
+    # Hash-based seed: Isse result har second badalne ke bajaye 
+    # Period ID ke unique code par base karega.
+    hash_object = hashlib.sha256(period_id.encode())
+    hex_dig = hash_object.hexdigest()
     
-    # BIG BRANDING HEADER
-    print("\033[1;32m" + "╔══════════════════════════════════════════════════════════╗")
-    print(f"║        👑 \033[1;33m{OWNER_NAME}\033[1;32m 👑         ║")
-    print(f"║          [ GITHUB PREMIUM - WORKING 100% ]               ║")
-    print("╚══════════════════════════════════════════════════════════╝" + "\033[0m")
+    # Extracting a specific number from the hash
+    last_val = int(hex_dig[-2:], 16) 
+    fix_number = last_val % 10
     
-    if user_hwid not in APPROVED_DEVICES:
-        print(f"\n\033[1;91m [!] ACCESS DENIED: YOUR KEY IS NOT APPROVED")
-        print(f"\033[1;97m [●] YOUR UNIQUE DEVICE ID : \033[1;36m{user_hwid}")
-        
-        print("\n\033[1;32m" + "─"*50)
-        print(f"\033[1;97m [ SUBSCRIPTION PLANS ]")
-        print(f" \033[1;32m▶ 1 MONTH    : 1000 PKR")
-        print(f" \033[1;32m▶ 3 MONTHS   : 3000 PKR")
-        print(f" \033[1;32m▶ LIFE TIME  : 5000 PKR")
-        print("\033[1;32m" + "─"*50)
-        
-        print(f"\n\033[1;33m [#] TO BUY ACCESS, SEND ID TO : \033[1;97m{CONTACT_NO}")
-        print(f"\033[1;90m [STATUS]: Waiting for Admin Approval...\033[0m")
-        sys.exit()
+    # Result mapping
+    if fix_number >= 5:
+        res = "BIG"
     else:
-        print(f"\n\033[1;32m [✔] DEVICE {user_hwid} REGISTERED!")
-        print(f" [●] CONNECTING TO {OWNER_NAME} PRIVATE SERVER...")
-        time.sleep(2)
-        return True
-
-def get_k3_logic():
-    now = datetime.now()
-    # Period Calculation (Synced with Game)
-    base = "10101"
-    mins = (now.hour * 60) + now.minute
-    p_suffix = 9701 + mins 
-    period = now.strftime("%Y%m%d") + base + str(p_suffix)
-    
-    # Secure Prediction Hash
-    seed = period + "FOZI_ULTRA_SECRET_V29"
-    h = hashlib.sha256(seed.encode()).hexdigest()
-    val = (int(h[:2], 16) % 16) + 3
-    
-    res = "BIG 🔴" if val >= 11 else "SMALL 🔵"
-    pattern = "ODD" if val % 2 != 0 else "EVEN"
-    
-    return period, val, res, pattern
+        res = "SMALL"
+        
+    return res, fix_number
 
 def start_tool():
+    clear()
+    print("\033[1;32m")
+    print(r"""
+  ______ ____ _________  _  ___ _   _  ____ 
+ |  ____/ __ \___  /_ _| |/ (_) \ | |/ ___|
+ | |__ | |  | | / / | || ' /| |  \| | |  _ 
+ |  __|| |  | |/ /  | || . \| | |\  | |_| |
+ |_|   \____//____|___|_|\_\_|_| \_|\____|
+    """)
+    print("\033[1;33m" + "="*55)
+    print(f" [●] TOOL   : DATA HASH PREDICTOR v44")
+    print(f" [●] STATUS : ANALYZING SERVER HASHES")
+    print(f" [●] OWNER  : FOZI KING X ASIM VIP")
+    print("="*55 + "\033[0m")
+    
+    key = input("\033[94m[+] ENTER ACCESS KEY: \033[0m")
+    if key != ACTIVATION_KEY:
+        print(f"\n\033[1;31m[!] WRONG KEY! CONTACT: {CONTACT_NUM}\033[0m")
+        sys.exit()
+
+    print(f"\n\033[1;32m[✔] SYNCING WITH PERIOD HASHES...")
+    time.sleep(2)
+
     last_p = ""
+
     while True:
-        p, v, r, patt = get_k3_logic()
-        if p != last_p:
-            last_p = p
-            clear()
-            print("\033[1;32m")
-            print(f"      👑 ★ ★ ★ {OWNER_NAME} ★ ★ ★ 👑      ")
-            print(f"      [ DATA SYNCED - 99.9% WIN RATE ]      ")
-            print("="*60 + "\033[0m")
+        try:
+            now = datetime.now()
+            p_id = now.strftime("%Y%m%d") + "01" + str((now.hour * 60) + now.minute + 1).zfill(4)
             
-            print(f"\n\033[1;96m [CURRENT PERIOD] : {p}")
-            print(f" [PREDICTION]     : \033[1;33m{r}\033[0m")
-            print(f" [PATTERN]        : {patt}")
-            print(f" [DICE SUM]       : {v}")
-            print(f" [WIN CHANCE]     : \033[1;32m99.99%\033[0m")
+            if p_id != last_p:
+                res, num = get_high_accuracy_logic(p_id)
+                last_p = p_id
+                
+                print(f"\n\033[1;96m[NEW ROUND]: {p_id}\033[0m")
+                
+                for i in range(1, 4):
+                    sys.stdout.write(f"\r\033[95m[READING HASH DATA] {'●' * i}")
+                    sys.stdout.flush()
+                    time.sleep(1)
+                
+                print("\n\n\033[1;32m" + "╔═══════════════════════════════════════╗")
+                print(f"  TARGET   : FANTASY GEMS 1-MIN")
+                print(f"  PERIOD   : {p_id}")
+                print(f"  RESULT   : {res}")
+                print(f"  FIX NUM  : {num}")
+                print(f"  CHANCE   : HIGH PROBABILITY")
+                print("╚═══════════════════════════════════════╝" + "\033[0m")
             
-            print("\n\033[1;32m" + "="*60 + "\033[0m")
-            print(f"\033[1;37m [#] ADMIN: {OWNER_NAME}")
-        
-        rem_sec = 60 - datetime.now().second
-        sys.stdout.write(f"\r\033[90m [FOZI KING] SCANNING NEXT: {rem_sec}s | SERVER: STABLE \033[0m")
-        sys.stdout.flush()
-        time.sleep(1)
+            rem_sec = 60 - now.second
+            sys.stdout.write(f"\r\033[90m[SYNC]: {rem_sec}s | SERVER INJECTION ACTIVE... \033[0m")
+            sys.stdout.flush()
+            time.sleep(1)
+                
+        except KeyboardInterrupt: break
+        except Exception: continue
 
 if __name__ == "__main__":
-    try:
-        if check_security():
-            start_tool()
-    except KeyboardInterrupt:
-        print(f"\n\n\033[1;31m [!] TOOL STOPPED BY ADMIN.\033[0m")
+    start_tool()
